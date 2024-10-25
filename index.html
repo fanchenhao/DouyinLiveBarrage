@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>前端 WebSocket 接收抖音数据</title>
+</head>
+<body>
+  <h1>抖音直播弹幕</h1>
+  <ul id="messages"></ul>
+
+  <script>
+    const socket = new WebSocket("ws://localhost:8765");
+
+    socket.onopen = function(event) {
+      console.log("连接到后端 WebSocket 服务器");
+    };
+
+    socket.onmessage = function(event) {
+      const message = event.data;
+      const messagesList = document.getElementById('messages');
+      const listItem = document.createElement('li');
+      listItem.textContent = message;
+      messagesList.appendChild(listItem);
+    };
+
+    socket.onclose = function(event) {
+      console.log("WebSocket 连接关闭");
+    };
+
+    socket.onerror = function(error) {
+      console.error("WebSocket 连接出错: ", error);
+    };
+  </script>
+</body>
+</html>
